@@ -1,0 +1,74 @@
+File formats
+
+== Source file:
+
+1. The file should be in CSV format; true CSV (comma-separated), not
+tab-separated.No thousand separators in numbers. All data series to be
+fitted should be included in a single file; the **Country** column
+should be used to code different data series (see below).
+
+2. The file should contain at least five columns: **Country**, **Fuel**,
+**Year**, **Value**, and **Total**.
+
+- **Country** (text) can be used to code
+countries, regions, states etc. Note: it there's only one data series
+in the file (e.g. a single source for a single country), you should
+still have the column Country for the code to work.
+
+- **Fuel** (text) can be used to code fuel (energy source) or technology. 
+Note: it there's only one type of fuel/technology
+in the file , you should
+still have the column Fuel for the code to work.
+
+- **Year** (number) – year or other time variable.
+
+- **Value** (number) – values to be
+fitted. 
+
+- **Total** (number) - some sort of the system size user for normalizing G and L.
+If the level of technology deployment (Value) and the system size (Total)
+are expressed in the same units, normalized G and L are expressed as % of 
+the system size. **Total** should be provided for all data points for
+which **Value** is provided (otherwise problems may occur in
+calculations).
+
+4. Any other columns can be included in the file, but
+they are ignored in the process of fitting.
+
+
+== Output: a csv file in the same location as the source data file. The
+same name with _fit added.
+
+Columns in the file:
+
+**Country** – country, region etc. (the same as in the source file)
+
+**Fuel** – fuel or technology (the same as in the source file)
+
+**Fit** – fitted model (S - logistic, G - Gompertz)
+
+**L** – growth ceiling (saturation level)
+
+**L.Size** – L normalized by the system size (Total) at TMax (or in the last
+available year if the estimated TMax is after that year). 
+
+**TMax** – maximum growth year.  The corresponding levels are L/2 for S;
+L * 0.368 for G.
+
+**K** – growth constant
+
+**dT** – time to grow from 10% to 90% of the ceiling. Calculated only
+for S and G (there are no ceilings for L and E)
+
+**G** – maximum growth rate, i.e. growth rate at TMax.
+
+**G.Size** – G normalized by the system size in TMax (or in the last available
+year if the estimated TMax is after that year). 
+
+**Maturity** – % of the eventual saturation level achieved by the fitted
+curve by the last available empirical year.
+
+**Size** - system size used for normalization. Calculated only if there
+is the Total column in the source data file AND "total <- T" is
+specified in the *fitting.R* file.  
+
